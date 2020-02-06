@@ -1,5 +1,5 @@
 #include "donnees.h"
 
-Donnees lesDonneesDuProgramme
+//Donnees lesDonneesDuProgramme
 //finir 5 b)
 
