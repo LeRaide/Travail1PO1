@@ -2,7 +2,12 @@
 
 //Donnees lesDonneesDuProgramme
 //finir 5 b)
-void intialiserPaquet();
+
+Donnees::Donnees()
+{
+	intialiserPaquet();
+}
+
 
 void Donnees::intialiserPaquet() 
 {
@@ -45,5 +50,4 @@ void Donnees::intialiserPaquet()
 			}
 	}
 }
-
 

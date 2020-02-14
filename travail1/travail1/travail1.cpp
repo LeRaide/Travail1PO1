@@ -12,9 +12,13 @@ Donnees leJeu;
 void InitialiserJoueurs();
 void Jouer();
 int DemanderNbCarte();
-void MelangerCarte();
-void DistribuerLesCartes();
+void MelangerCarteTableau();
+void DistribuerLesCartes(int nombreCarteParJoueur);
 
+int AfficherLesCartes(int nombreCarteParJoueur, Joueur LeJoueur);
+void augmenterVictoire();
+void augmenterDefaite();
+void PartieTerminée();
 
 int main() 
 {
@@ -31,9 +35,15 @@ int main()
 
 void Jouer() 
 {
-
-	DemanderNbCarte();
+	int NbCarteParJoueur = 0;
+	int TotalJoueur1;
+	int TotalJoueur2;
+	NbCarteParJoueur = DemanderNbCarte();
 	
+	MelangerCarteTableau();
+	DistribuerLesCartes(NbCarteParJoueur);
+	TotalJoueur1 =  AfficherLesCartes(NbCarteParJoueur, leJeu.joueur1);
+	TotalJoueur2 = AfficherLesCartes(NbCarteParJoueur, leJeu.joueur2);
 }
 
 void InitialiserJoueurs()
@@ -53,7 +63,19 @@ int DemanderNbCarte()
 {
 	int nombreCarteParJoueur;
 	cout << "Combien de carte voulez-vous par usager?";
-	cin >> nombreCarteParJoueur;
+	while (!((std::cin >> nombreCarteParJoueur) && (nombreCarteParJoueur > 0) && (nombreCarteParJoueur < 27))) // while not equal bool
+	{
+		if (std::cin.fail())
+		{
+			std::cout << "Saisie incorrecte, recommencez : ";
+			std::cin.clear();
+			std::cin.ignore(1500, '\n');
+		}
+		else
+		{
+			std::cout << "Le chiffre n'est pas entre 1 et 26, recommencez : ";
+		}
+	}
 	return nombreCarteParJoueur;
 }
 
@@ -81,13 +103,54 @@ void MelangerCarteTableau()
 void DistribuerLesCartes(int nombreCarteParJoueur)
 {
 	int indice = 0;
-	for (indice = 0; indice < nombreCarteParJoueur; indice++)
+	for (indice = 0; indice < nombreCarteParJoueur*2; indice++)
 	{
 		if (indice % 2 == 0)
 		{
-			leJeu.joueur1.AjouterCarteAlaMain(Carte *indice)
+			leJeu.joueur1.AjouterCarteAlaMain(&leJeu.PaquetDeCarte[indice]); //pour afficher le tableau
+
+		}
+		else
+		{
+			leJeu.joueur2.AjouterCarteAlaMain(&leJeu.PaquetDeCarte[indice]);
 		}
 		}
 
-	leJeu.PaquetDeCarte
+	leJeu.PaquetDeCarte;
+
+
+
+}
+
+void augmenterVictoire()
+{
+
+}
+
+void augmenterDefaite()
+{
+
+}
+
+void PartieTerminée()
+{
+
+	/*cout << "Joueur 1: " & GetNom();
+	cout << "Nombre de victoire :";
+	cout << "Nombre de defaite :";*/
+
+}
+int AfficherLesCartes(int nombreCarteParJoueur, Joueur LeJoueur)
+{
+	int indice = 0;
+	int additionnerLesCartes = 0;
+	cout << "Nom du joueur : " << LeJoueur.GetNom();
+	cout << "il possède ces cartes :";
+	for (indice = 0; indice < nombreCarteParJoueur; indice++)
+	{
+		cout << LeJoueur.GetCarte(indice)->GetValeur() << " de " << LeJoueur.GetCarte(indice)->GetAtout();
+		additionnerLesCartes += LeJoueur.GetCarte(indice)->GetValeur();
+	}
+	cout << "le total de ses cartes additionner est :" << additionnerLesCartes;
+	return additionnerLesCartes;
 }
