@@ -14,14 +14,12 @@ void Jouer();
 int DemanderNbCarte();
 void MelangerCarteTableau();
 void DistribuerLesCartes(int nombreCarteParJoueur);
-
 int AfficherLesCartes(int nombreCarteParJoueur, Joueur LeJoueur);
-void augmenterVictoire();
-void augmenterDefaite();
-void PartieTerminée();
-
+void AugmenterVictoireEtDefaite(int aResultatJoueur1, int aResultatJoueur2);
+void AfficherGrandGagnant();
 int main() 
 {
+	string leGagnant = "" ;
 	char fini = 'n';
 	srand((unsigned)time(NULL));
 	InitialiserJoueurs();
@@ -31,6 +29,10 @@ int main()
 		cout << "\nTermine (n/o) ? ";
 		cin >> fini;		
 	}
+	
+	
+	AfficherGrandGagnant();
+	
 }
 
 void Jouer() 
@@ -44,6 +46,18 @@ void Jouer()
 	DistribuerLesCartes(NbCarteParJoueur);
 	TotalJoueur1 =  AfficherLesCartes(NbCarteParJoueur, leJeu.joueur1);
 	TotalJoueur2 = AfficherLesCartes(NbCarteParJoueur, leJeu.joueur2);
+	if (TotalJoueur1 > TotalJoueur2)
+	{
+		cout << "Le joueur " << leJeu.joueur1.GetNom() << "gagne !";
+		AugmenterVictoireEtDefaite(TotalJoueur1, TotalJoueur2);
+	}
+	else
+	{
+		cout << "Le joueur " << leJeu.joueur2.GetNom() << "gagne !";
+		AugmenterVictoireEtDefaite(TotalJoueur1, TotalJoueur2);
+	}
+	
+
 }
 
 void InitialiserJoueurs()
@@ -122,24 +136,6 @@ void DistribuerLesCartes(int nombreCarteParJoueur)
 
 }
 
-void augmenterVictoire()
-{
-
-}
-
-void augmenterDefaite()
-{
-
-}
-
-void PartieTerminée()
-{
-
-	/*cout << "Joueur 1: " & GetNom();
-	cout << "Nombre de victoire :";
-	cout << "Nombre de defaite :";*/
-
-}
 int AfficherLesCartes(int nombreCarteParJoueur, Joueur LeJoueur)
 {
 	int indice = 0;
@@ -154,3 +150,43 @@ int AfficherLesCartes(int nombreCarteParJoueur, Joueur LeJoueur)
 	cout << "le total de ses cartes additionner est :" << additionnerLesCartes;
 	return additionnerLesCartes;
 }
+
+void AfficherGrandGagnant()
+{
+	if (leJeu.joueur1.GetNbVictoire() > leJeu.joueur2.GetNbVictoire())
+	{
+		cout << "Le joueur " << leJeu.joueur1.GetNom() << " est le gagnant avec " << leJeu.joueur1.GetNbVictoire() << "victoires et " << leJeu.joueur1.GetNbDefaite() <<  " defaites";
+		cout << "Le joueur " << leJeu.joueur2.GetNom() << " est le perdant avec " << leJeu.joueur2.GetNbVictoire() << "victoires et " << leJeu.joueur2.GetNbDefaite() << " defaites";
+		
+	
+
+
+	}
+	else
+	{
+		cout << "Le joueur " << leJeu.joueur2.GetNom() << " est le gagnant avec " << leJeu.joueur2.GetNbVictoire() << "victoires et " << leJeu.joueur2.GetNbDefaite() << " defaites";
+		cout << "Le joueur " << leJeu.joueur1.GetNom() << " est le perdant avec " << leJeu.joueur1.GetNbVictoire() << "victoires et " << leJeu.joueur1.GetNbDefaite() << " defaites";
+	
+	
+	}
+}
+void AugmenterVictoireEtDefaite(int aResultatJoueur1, int aResultatJoueur2)
+{
+	if (aResultatJoueur1 > aResultatJoueur2)
+	{
+		leJeu.joueur1.AugmenterNbVictoire();
+		leJeu.joueur2.AugmenterNbDefaite();
+		cout << "Bien joue " << leJeu.joueur1.GetNom() << " tu gagnes cette partie";
+	}
+	else if (aResultatJoueur1 == aResultatJoueur2)
+	{
+		cout << "Bien joue au deux joueurs, il y a egalite";
+	}
+	else
+	{
+		leJeu.joueur2.AugmenterNbVictoire();
+		leJeu.joueur1.AugmenterNbDefaite();
+		cout << "Bien joue " << leJeu.joueur1.GetNom() << " tu gagnes cette partie";
+	}
+}
+
